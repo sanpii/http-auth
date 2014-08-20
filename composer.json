@@ -1,0 +1,19 @@
+{
+    "name": "sanpi/http-auth",
+    "license": "MIT",
+    "require": {
+        "php": "~5.4"
+    },
+    "require-dev": {
+        "atoum/atoum": "*@dev"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sanpi\\Http\\": "src/",
+            "Test\\Unit\\Sanpi\\Http\\": "tests/Unit/"
+        }
+    }
+}
