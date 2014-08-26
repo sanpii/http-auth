@@ -11,9 +11,9 @@
         "bin-dir": "bin"
     },
     "autoload": {
-        "psr-4": {
-            "Sanpi\\Http\\": "src/",
-            "Test\\Unit\\Sanpi\\Http\\": "tests/Unit/"
-        }
+        "psr-4": { "Sanpi\\Http\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Test\\Unit\\Sanpi\\Http\\": "tests/Unit/" }
     }
 }
