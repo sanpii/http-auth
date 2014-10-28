@@ -2,7 +2,8 @@
     "name": "sanpi/http-auth",
     "license": "MIT",
     "require": {
-        "php": "~5.4"
+        "php": "~5.4",
+        "symfony/http-foundation": "~2.5"
     },
     "require-dev": {
         "atoum/atoum": "*@dev"

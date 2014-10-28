@@ -3,23 +3,24 @@
 namespace Sanpi\Http\Auth;
 
 use Sanpi\Http\Auth;
+use Symfony\Component\HttpFoundation\HeaderBag;
 
 class Digest implements Auth
 {
-    public function hasAuthorization($request)
+    public function hasAuthorization(HeaderBag $headers)
     {
-        return isset($request['HTTP_AUTHORIZATION']);
+        return ($headers->get('Authorization') !== null);
     }
 
-    public function getAuthorization($request, $username, $password)
+    public function getAuthorization($method, $uri, HeaderBag $headers, $username, $password)
     {
-        $authRequest = $this->unserialize($request['WWW-Authenticate']);
+        $authRequest = $this->unserialize($headers->get('WWW-Authenticate'));
         $data = $this->hash(
             $username,
             $password,
             $authRequest,
-            $request['method'],
-            $request['uri']
+            $method,
+            $uri
         );
         return $this->serialize($data);
     }
@@ -32,11 +33,11 @@ class Digest implements Auth
         );
     }
 
-    public function authenticate($request, $username, $password)
+    public function authenticate($method, HeaderBag $headers, $username, $password)
     {
-        $data = $this->unserialize($request['HTTP_AUTHORIZATION']);
+        $data = $this->unserialize($headers->get('Authorization'));
         $A1 = md5("$username:{$data['realm']}:$password");
-        $A2 = md5($request['REQUEST_METHOD'] . ':' . $data['uri']);
+        $A2 = md5("$method:{$data['uri']}");
         $response = md5($A1 . ':' . $data['nonce'] . ':' . $data['nc'] . ':' . $data['cnonce'] . ':' . $data['qop'] . ':' . $A2);
 
         return ($response === $data['response']);

@@ -2,6 +2,8 @@
 
 namespace Test\Unit\Sanpi\Http\Auth;
 
+use Symfony\Component\HttpFoundation\HeaderBag;
+
 class Basic extends \atoum
 {
     private $auth;
@@ -20,19 +22,27 @@ class Basic extends \atoum
 
     public function testNoHasAuthorization()
     {
-        $this->boolean($this->auth->hasAuthorization([]))
+        $headers = new HeaderBag();
+
+        $this->boolean($this->auth->hasAuthorization($headers))
             ->isFalse();
     }
 
     public function testHasAuthorization()
     {
-        $this->boolean($this->auth->hasAuthorization(['HTTP_AUTHORIZATION' => '']))
+        $headers = new HeaderBag([
+            'Authorization' => ''
+        ]);
+
+        $this->boolean($this->auth->hasAuthorization($headers))
             ->isTrue();
     }
 
     public function testGetAuthorization()
     {
-        $authorization = $this->auth->getAuthorization([], 'Aladdin', 'open sesame');
+        $headers = new HeaderBag();
+        $authorization = $this->auth->getAuthorization('GET', '/dir/index.html', $headers, 'Aladdin', 'open sesame');
+
         $this->string($authorization)
             ->isIdenticalTo('Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==');
     }
@@ -47,20 +57,23 @@ class Basic extends \atoum
 
     public function testAuthenticate()
     {
-        $authorization = $this->auth->authenticate(
-            ['PHP_AUTH_USER' => 'Aladdin', 'PHP_AUTH_PW' => 'open sesame'],
-            'Aladdin', 'open sesame'
-        );
+        $headers = new HeaderBag([
+            'PHP_AUTH_USER' => 'Aladdin',
+            'PHP_AUTH_PW' => 'open sesame',
+        ]);
+        $authorization = $this->auth->authenticate('GET', $headers, 'Aladdin', 'open sesame');
         $this->boolean($authorization)
             ->isTrue();
     }
 
     public function testInvalidAuthenticate()
     {
-        $authorization = $this->auth->authenticate(
-            ['PHP_AUTH_USER' => 'Aladdin', 'PHP_AUTH_PW' => 'xxx'],
-            'Aladdin', 'open sesame'
-        );
+        $headers = new HeaderBag([
+            'PHP_AUTH_USER' => 'Aladdin',
+            'PHP_AUTH_PW' => 'xxx',
+        ]);
+        $authorization = $this->auth->authenticate('GET', $headers, 'Aladdin', 'open sesame');
+
         $this->boolean($authorization)
             ->isFalse();
     }

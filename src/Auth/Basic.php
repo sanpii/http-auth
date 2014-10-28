@@ -3,15 +3,16 @@
 namespace Sanpi\Http\Auth;
 
 use Sanpi\Http\Auth;
+use Symfony\Component\HttpFoundation\HeaderBag;
 
 class Basic implements Auth
 {
-    public function hasAuthorization($request)
+    public function hasAuthorization(HeaderBag $headers)
     {
-        return isset($request['HTTP_AUTHORIZATION']);
+        return ($headers->get('Authorization') !== null);
     }
 
-    public function getAuthorization($request, $username, $password)
+    public function getAuthorization($method, $uri, HeaderBag $headers, $username, $password)
     {
         return 'Basic ' . base64_encode("$username:$password");
     }
@@ -21,11 +22,11 @@ class Basic implements Auth
         return sprintf('Basic realm="%s"', $realm);
     }
 
-    public function authenticate($request, $username, $password)
+    public function authenticate($method, HeaderBag $headers, $username, $password)
     {
         return (
-            $request['PHP_AUTH_USER'] === $username
-            && $request['PHP_AUTH_PW'] === $password
+            $headers->get('PHP_AUTH_USER') === $username
+            && $headers->get('PHP_AUTH_PW') === $password
         );
     }
 }

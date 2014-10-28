@@ -2,10 +2,12 @@
 
 namespace Sanpi\Http;
 
+use Symfony\Component\HttpFoundation\HeaderBag;
+
 interface Auth
 {
-    public function hasAuthorization($request);
-    public function getAuthorization($request, $username, $password);
+    public function hasAuthorization(HeaderBag $headers);
+    public function getAuthorization($method, $uri, HeaderBag $headers, $username, $password);
     public function getChallenge($realm, $qop = 'auth-int');
-    public function authenticate($request, $username, $password);
+    public function authenticate($method, HeaderBag $headers, $username, $password);
 }
