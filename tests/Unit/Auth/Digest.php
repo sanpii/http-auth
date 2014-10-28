@@ -42,6 +42,14 @@ class Digest extends \atoum
             ->match('#Digest username="Mufasa", realm="testrealm@host.com", nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", uri="/dir/index.html", qop="auth-int", nc="00000001", cnonce="[\w\d]+", response="[\w\d]+", opaque="5ccc069c403ebaf9f0171e9517f40e41"#');
     }
 
+    public function testGetChallenge()
+    {
+        $challenge = $this->auth->getChallenge('testrealm@host.com');
+
+        $this->string($challenge)
+            ->match('#Digest realm="testrealm@host.com", qop="auth-int", nonce="[\w\d]+", opaque="[\w\d]+"#');
+    }
+
     public function testAuthenticate()
     {
         $authorization = $this->auth->authenticate(

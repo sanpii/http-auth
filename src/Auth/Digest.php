@@ -24,6 +24,14 @@ class Digest implements Auth
         return $this->serialize($data);
     }
 
+    public function getChallenge($realm, $qop = 'auth-int')
+    {
+        return sprintf(
+            'Digest realm="%s", qop="%s", nonce="%s", opaque="%s"',
+            $realm, $qop, uniqid(), md5($realm)
+        );
+    }
+
     public function authenticate($request, $username, $password)
     {
         $data = $this->unserialize($request['HTTP_AUTHORIZATION']);

@@ -16,6 +16,11 @@ class Basic implements Auth
         return 'Basic ' . base64_encode("$username:$password");
     }
 
+    public function getChallenge($realm, $qop = 'auth-int')
+    {
+        return sprintf('Basic realm="%s"', $realm);
+    }
+
     public function authenticate($request, $username, $password)
     {
         return (

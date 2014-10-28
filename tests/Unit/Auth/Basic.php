@@ -37,6 +37,14 @@ class Basic extends \atoum
             ->isIdenticalTo('Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==');
     }
 
+    public function testGetChallenge()
+    {
+        $challenge = $this->auth->getChallenge('testrealm@host.com');
+
+        $this->string($challenge)
+            ->isIdenticalTo('Basic realm="testrealm@host.com"');
+    }
+
     public function testAuthenticate()
     {
         $authorization = $this->auth->authenticate(
