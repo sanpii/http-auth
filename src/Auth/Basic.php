@@ -6,6 +6,11 @@ use Sanpi\Http\Auth;
 
 class Basic implements Auth
 {
+    public function hasAuthorization($request)
+    {
+        return isset($request['HTTP_AUTHORIZATION']);
+    }
+
     public function getAuthorization($request, $username, $password)
     {
         return 'Basic ' . base64_encode("$username:$password");

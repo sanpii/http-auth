@@ -18,6 +18,18 @@ class Basic extends \atoum
             ->isInstanceOf('Sanpi\Http\Auth');
     }
 
+    public function testNoHasAuthorization()
+    {
+        $this->boolean($this->auth->hasAuthorization([]))
+            ->isFalse();
+    }
+
+    public function testHasAuthorization()
+    {
+        $this->boolean($this->auth->hasAuthorization(['HTTP_AUTHORIZATION' => '']))
+            ->isTrue();
+    }
+
     public function testGetAuthorization()
     {
         $authorization = $this->auth->getAuthorization([], 'Aladdin', 'open sesame');

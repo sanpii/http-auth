@@ -6,6 +6,11 @@ use Sanpi\Http\Auth;
 
 class Digest implements Auth
 {
+    public function hasAuthorization($request)
+    {
+        return isset($request['HTTP_AUTHORIZATION']);
+    }
+
     public function getAuthorization($request, $username, $password)
     {
         $authRequest = $this->unserialize($request['WWW-Authenticate']);
