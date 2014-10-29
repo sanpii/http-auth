@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\HeaderBag;
 
 class Basic extends \atoum
 {
+    const VALID_AUTHORIZATION = 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==';
+
     private $auth;
 
     public function beforeTestMethod($testMethod)
@@ -31,7 +33,7 @@ class Basic extends \atoum
     public function testHasAuthorization()
     {
         $headers = new HeaderBag([
-            'Authorization' => ''
+            'Authorization' => self::VALID_AUTHORIZATION,
         ]);
 
         $this->boolean($this->auth->hasAuthorization($headers))
@@ -41,7 +43,7 @@ class Basic extends \atoum
     public function testAccept()
     {
         $headers = new HeaderBag([
-            'Authorization' => 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==',
+            'Authorization' => self::VALID_AUTHORIZATION,
         ]);
 
         $this->boolean($this->auth->accept($headers))
@@ -51,7 +53,7 @@ class Basic extends \atoum
     public function testDontAccept()
     {
         $headers = new HeaderBag([
-            'Authorization' => 'Digest username="Mufasa", realm="testrealm@host.com", nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", uri="/dir/index.html", qop="auth-int", nc="00000001", cnonce="53f49857c5ff8", response="7cc6e7cb66974d51b1595d7d81065150", opaque="5ccc069c403ebaf9f0171e9517f40e41"',
+            'Authorization' => Digest::VALID_AUTHORIZATION,
         ]);
 
         $this->boolean($this->auth->accept($headers))
@@ -64,7 +66,7 @@ class Basic extends \atoum
         $authorization = $this->auth->getAuthorization('GET', '/dir/index.html', $headers, 'Aladdin', 'open sesame');
 
         $this->string($authorization)
-            ->isIdenticalTo('Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==');
+            ->isIdenticalTo(self::VALID_AUTHORIZATION);
     }
 
     public function testGetChallenge()
