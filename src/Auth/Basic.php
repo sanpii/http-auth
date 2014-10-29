@@ -2,7 +2,6 @@
 
 namespace Sanpi\Http\Auth;
 
-use Sanpi\Http\Auth;
 use Symfony\Component\HttpFoundation\HeaderBag;
 
 class Basic implements Auth

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sanpi\Http;
+namespace Sanpi\Http\Auth;
 
 use Symfony\Component\HttpFoundation\HeaderBag;
 

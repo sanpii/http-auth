@@ -19,7 +19,7 @@ class Digest extends \atoum
     public function testInit()
     {
         $this->object($this->auth)
-            ->isInstanceOf('Sanpi\Http\Auth');
+            ->isInstanceOf('Sanpi\Http\Auth\Auth');
     }
 
     public function testNoHasAuthorization()
