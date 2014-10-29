@@ -17,7 +17,7 @@ class None extends \atoum
     public function testInit()
     {
         $this->object($this->auth)
-            ->isInstanceOf('Sanpi\Http\Auth\Auth');
+            ->isInstanceOf('\Sanpi\Http\Auth\Auth');
     }
 
     public function testNoHasAuthorization()
