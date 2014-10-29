@@ -38,6 +38,26 @@ class Digest extends \atoum
             ->isTrue();
     }
 
+    public function testAccept()
+    {
+        $headers = new HeaderBag([
+            'Authorization' => 'Digest username="Mufasa", realm="testrealm@host.com", nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", uri="/dir/index.html", qop="auth-int", nc="00000001", cnonce="53f49857c5ff8", response="7cc6e7cb66974d51b1595d7d81065150", opaque="5ccc069c403ebaf9f0171e9517f40e41"',
+        ]);
+
+        $this->boolean($this->auth->accept($headers))
+            ->isTrue();
+    }
+
+    public function testDontAccept()
+    {
+        $headers = new HeaderBag([
+            'Authorization' => 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==',
+        ]);
+
+        $this->boolean($this->auth->accept($headers))
+            ->isFalse();
+    }
+
     public function testGetAuthorization()
     {
         $headers = new HeaderBag([

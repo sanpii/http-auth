@@ -25,6 +25,12 @@ class Digest implements Auth
         return $this->serialize($data);
     }
 
+    public function accept(HeaderBag $headers)
+    {
+        $authorization = $headers->get('Authorization');
+        return (stripos($authorization, 'Digest ') === 0);
+    }
+
     public function getChallenge($realm, $qop = 'auth-int')
     {
         return sprintf(

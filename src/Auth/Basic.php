@@ -12,6 +12,12 @@ class Basic implements Auth
         return ($headers->get('Authorization') !== null);
     }
 
+    public function accept(HeaderBag $headers)
+    {
+        $authorization = $headers->get('Authorization');
+        return (stripos($authorization, 'Basic ') === 0);
+    }
+
     public function getAuthorization($method, $uri, HeaderBag $headers, $username, $password)
     {
         return 'Basic ' . base64_encode("$username:$password");
