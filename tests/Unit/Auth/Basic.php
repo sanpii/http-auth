@@ -77,6 +77,18 @@ class Basic extends \atoum
             ->isIdenticalTo('Basic realm="testrealm@host.com"');
     }
 
+    public function testGetUsername()
+    {
+        $headers = new HeaderBag([
+            'PHP_AUTH_USER' => 'Aladdin',
+            'PHP_AUTH_PW' => 'open sesame',
+        ]);
+        $username = $this->auth->getUsername($headers);
+
+        $this->string($username)
+            ->isIdenticalTo('Aladdin');
+    }
+
     public function testAuthenticate()
     {
         $headers = new HeaderBag([

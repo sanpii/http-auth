@@ -79,6 +79,17 @@ class Digest extends \atoum
             ->match('#Digest realm="testrealm@host.com", qop="auth-int", nonce="[\w\d]+", opaque="[\w\d]+"#');
     }
 
+    public function testGetUsername()
+    {
+        $headers = new HeaderBag([
+            'Authorization' => self::VALID_AUTHORIZATION,
+        ]);
+        $username = $this->auth->getUsername($headers);
+
+        $this->string($username)
+            ->isIdenticalTo('Mufasa');
+    }
+
     public function testAuthenticate()
     {
         $headers = new HeaderBag([

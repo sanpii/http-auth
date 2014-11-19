@@ -27,6 +27,11 @@ class Basic implements Auth
         return sprintf('Basic realm="%s"', $realm);
     }
 
+    public function getUsername(HeaderBag $headers)
+    {
+        return $headers->get('PHP_AUTH_USER');
+    }
+
     public function authenticate($method, HeaderBag $headers, $username, $password)
     {
         return (

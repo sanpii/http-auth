@@ -10,5 +10,6 @@ interface Auth
     public function accept(HeaderBag $headers);
     public function getAuthorization($method, $uri, HeaderBag $headers, $username, $password);
     public function getChallenge($realm, $qop = 'auth-int');
+    public function getUsername(HeaderBag $headers);
     public function authenticate($method, HeaderBag $headers, $username, $password);
 }

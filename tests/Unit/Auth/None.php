@@ -73,6 +73,15 @@ class None extends \atoum
             ->isIdenticalTo('');
     }
 
+    public function testGetUsername()
+    {
+        $headers = new HeaderBag();
+        $username = $this->auth->getUsername($headers);
+
+        $this->string($username)
+            ->isIdenticalTo('');
+    }
+
     public function testAuthenticate()
     {
         $headers = new HeaderBag();
@@ -80,5 +89,4 @@ class None extends \atoum
         $this->boolean($authorization)
             ->isTrue();
     }
-
 }

@@ -26,6 +26,11 @@ class None implements Auth
         return '';
     }
 
+    public function getUsername(HeaderBag $headers)
+    {
+        return '';
+    }
+
     public function authenticate($method, HeaderBag $headers, $username, $password)
     {
         return true;

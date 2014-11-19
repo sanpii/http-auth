@@ -38,6 +38,13 @@ class Digest implements Auth
         );
     }
 
+    public function getUsername(HeaderBag $headers)
+    {
+        $data = $this->unserialize($headers->get('Authorization'));
+
+        return $data['username'];
+    }
+
     public function authenticate($method, HeaderBag $headers, $username, $password)
     {
         $data = $this->unserialize($headers->get('Authorization'));
